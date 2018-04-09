@@ -1,19 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import {Form, FormControl, Button} from 'react-bootstrap';
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      text:'',
+      notes: []
+    }
+  }
+
+  submit(){
+
+    const { notes, text } = this.state;
+
+    notes.push({ text });
+
+    this.setState({ notes });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <div>
+            <h2>Note to Self</h2>
+            <Form inline>
+              <FormControl onChange={event => this.setState({ text: event.target.value }) } />
+              {' '}
+              <Button onClick={() => this.submit()}>Submit</Button>
+            </Form>
+            {
+              this.state.notes.map((note, index) => {
+                return (
+                  <div key={index}>{note.text}</div>
+                )
+              })
+            }
+
+          </div>
     );
   }
 }
